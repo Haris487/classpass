@@ -40,7 +40,7 @@ const getFeaturedReview = ($) => {
 
   const reviewSection = $("#reviews");
   const listReviewElement = $(reviewSection).find("ul");
-  let reviews = "";
+  let reviews = [];
 
   const reviewsElements = listReviewElement[1].children;
   for (let i = 0; i < 4; i++) {
@@ -56,7 +56,13 @@ const getFeaturedReview = ($) => {
     const authorLocation = $(authorLocationElement).text();
     const reviewTextElement = reviewElement.children[0].children[2];
     const reviewText = $(reviewTextElement).text();
-    reviews += reviewText + " ";
+    reviews.push({
+      author: {
+        name: authorName,
+        location: authorLocation,
+      },
+      text: reviewText
+    });
   }
 
   return reviews;
@@ -110,7 +116,7 @@ const _getActivities = ($) => {
     return getActivities($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -119,7 +125,7 @@ const _getDescription = ($) => {
     return getDescription($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -128,7 +134,7 @@ const _getAddress = ($) => {
     return getAddress($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -137,7 +143,7 @@ const _getZip = ($) => {
     return getZip($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -146,7 +152,7 @@ const _getFeaturedReview = ($) => {
     return getFeaturedReview($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -155,7 +161,7 @@ const _getAttributes = ($) => {
     return getAttributes($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -164,7 +170,7 @@ const _getVenueName = ($) => {
     return getVenueName($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 
@@ -173,7 +179,7 @@ const _getRatingAverage = ($) => {
     return getRatingAverage($);
   } catch (err) {
     console.log(err);
-    return { error: err };
+    return { error: err.message };
   }
 };
 

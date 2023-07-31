@@ -22,7 +22,7 @@ app.post("/api/parse", async (req, res) => {
     const html_body = await getHtmlBody(yelp_url);
     const parsed_data = await getParsedData(html_body);
     const sampleInput = `name = ${parsed_data.venue_name} description = ${parsed_data.description} address = ${parsed_data.address}\
-     zipcode = ${parsed_data.zip} reviews = ${parsed_data.featured_review} rating = ${parsed_data.rating_average} attributes = ${parsed_data.attributes}`;
+     zipcode = ${parsed_data.zip} reviews = ${parsed_data.featured_review.map(e=>e.text).join(" ")} rating = ${parsed_data.rating_average} attributes = ${parsed_data.attributes}`;
     console.log(sampleInput);
     res.status(201).json({
       match: true,
