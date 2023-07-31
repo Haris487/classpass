@@ -38,14 +38,15 @@
   npm install
 ```
 
-6. **npm install**
-```sh
-  npm install
-```
-
-7. **npm install**
+7. **start server**
 ```sh
   npm start
+```
+
+## RUN TESTS
+
+```sh
+  npm test
 ```
 
 
@@ -58,37 +59,32 @@
   ssh -i "**-*******-***.pem" ubuntu@ec2-**-***-**-*.compute-1.amazonaws.com
 ```
 
-2. **ssh into server**
+2. **goto classpass directory**
 ```sh
   cd classpass/
 ```
 
-3. **ssh into server**
-```sh
-  cd classpass/
-```
-
-4. **remove local changes**
+3. **remove local changes**
 ```sh
   git stash
 ```
 
-5. **pull latest changes**
+4. **pull latest changes**
 ```sh
   git pull orgin main
 ```
 
-6. **install packages**
+5. **install packages**
 ```sh
   npm install
 ```
 
-7. **restart pm2 server**
+6. **restart pm2 server**
 ```sh
   pm2 restart classpass
 ```
 
-8. **check pm2 logs**
+7. **check pm2 logs**
 ```sh
   pm2 logs
 ```
