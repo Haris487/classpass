@@ -56,7 +56,7 @@ const getFeaturedReview = ($) => {
     const authorLocation = $(authorLocationElement).text();
     const reviewTextElement = reviewElement.children[0].children[2];
     const reviewText = $(reviewTextElement).text();
-    reviews += reviewText;
+    reviews += reviewText + " ";
   }
 
   return reviews;
