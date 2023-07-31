@@ -16,15 +16,24 @@ app.get('/health', (req, res) => {
 });
 
 app.post('/api/parse', async (req, res) => {
-  const data = req.body;
-  const yelp_url = data.yelp_url;
-  const html_body = await getHtmlBody(yelp_url);
-  const parsed_data = await getParsedData(html_body);
-  console.log(parsed_data);
-  res.status(201).json({
-    match : true,
-    parsed_data
-  });
+  try{
+    const data = req.body;
+    const yelp_url = data.yelp_url;
+    const html_body = await getHtmlBody(yelp_url);
+    const parsed_data = await getParsedData(html_body);
+    console.log(parsed_data);
+    res.status(201).json({
+      match : true,
+      parsed_data
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      match : false,
+      parsed_data : null,
+      error : err.message
+    });
+  }
 });
 
 // Start the server

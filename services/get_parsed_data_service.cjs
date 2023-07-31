@@ -30,8 +30,33 @@ const getZip = ($) => {
 }
 
 const getFeaturedReview = ($) => {
-  // what is featured review?
-  return '';
+  // feature review is the review Heighlights
+
+  const reviewSection = $('#reviews');
+  const listReviewElement = $(reviewSection).find('ul');
+  const reviews = [];
+
+  const reviewsElements = listReviewElement[1].children;
+  for (let i = 0 ; i < reviewsElements.length; i++){
+    const reviewElement = reviewsElements[i];
+    const reviewAuthorElement = reviewElement.children[0].children[0].children[0].children[0].children[0].children[0];
+    const authorNameElement = reviewAuthorElement.children[1].children[0].children[0];
+    const authorLocationElement = reviewAuthorElement.children[1].children[0].children[1];
+    const authorName = $(authorNameElement).text();
+    const authorLocation = $(authorLocationElement).text();
+    const reviewTextElement = reviewElement.children[0].children[2];
+    const reviewText = $(reviewTextElement).text();
+    reviews.push({
+      author: {
+        name : authorName,
+        location : authorLocation
+      },
+      text : reviewText
+    });
+
+  }
+ 
+  return reviews;
 }
 
 const getAttributes = ($) => {
@@ -73,19 +98,94 @@ const getRatingAverage = ($) => {
   return rating;
 }
 
+// wrap all functions in try catch block
+
+const _getActivities = ($) => {
+  try{
+    return getActivities($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getDescription = ($) => {
+  try{
+    return getDescription($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getAddress = ($) => {
+  try{
+    return getAddress($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getZip = ($) => {
+  try{
+    return getZip($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getFeaturedReview = ($) => {
+  try{
+    return getFeaturedReview($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getAttributes = ($) => {
+  try{
+    return getAttributes($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getVenueName = ($) => {
+  try{
+    return getVenueName($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+const _getRatingAverage = ($) => {
+  try{
+    return getRatingAverage($);
+  } catch (err) {
+    console.log(err);
+    return {error:err};
+  }
+}
+
+
 module.exports =  async (html) => {
   // Use Cheerio to parse the HTML content
   const $ = cheerio.load(html);
 
   const parsedData = {
-    activities : getActivities($),
-    description : getDescription($),
-    address : getAddress($),
-    zip : getZip($),
-    featured_review : getFeaturedReview($),
-    attributes : getAttributes($),
-    venue_name : getVenueName($),
-    rating_average : getRatingAverage($)
+    activities : _getActivities($),
+    description : _getDescription($),
+    address : _getAddress($),
+    zip : _getZip($),
+    featured_review : _getFeaturedReview($),
+    attributes : _getAttributes($),
+    venue_name : _getVenueName($),
+    rating_average : _getRatingAverage($)
   };
 
   return parsedData;
