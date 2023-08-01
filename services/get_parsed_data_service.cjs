@@ -15,7 +15,7 @@ const getDescription = ($) => {
     .text()
     .replace("About the Business", "")
     .trim();
-  const trimed_desc = description.replace(/\….*$/, "");
+  const trimed_desc = description.replace(/\….*$/, "").replace(/\n/," ");
   return trimed_desc;
 };
 
