@@ -19,6 +19,7 @@ app.get("/health", (req, res) => {
 
 app.post("/api/parse", async (req, res) => {
   let response_url = '';
+  const host = 'http://' +  req.get('host');
   try {
     const data = req.body;
     const yelp_url = data.yelp_url;
@@ -59,7 +60,7 @@ app.post("/api/parse", async (req, res) => {
       match: true,
       parsed_data : clean_data,
       error,
-      response_url: '/saved_response/'+response_url,
+      response_url: host+'/saved_response/'+response_url,
     });
   } catch (err) {
     console.log(err);
@@ -67,7 +68,7 @@ app.post("/api/parse", async (req, res) => {
       match: false,
       parsed_data: null,
       error: err.message,
-      response_url: '/saved_response/'+response_url,
+      response_url: host+'/saved_response/'+response_url,
     });
   }
 });
