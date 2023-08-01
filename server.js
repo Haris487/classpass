@@ -19,7 +19,7 @@ app.get("/health", (req, res) => {
 
 app.post("/api/parse", async (req, res) => {
   let response_url = '';
-  const host = 'http://' +  req.get('host');
+  const host = 'http://18.212.52.4';
   try {
     const data = req.body;
     const yelp_url = data.yelp_url;
