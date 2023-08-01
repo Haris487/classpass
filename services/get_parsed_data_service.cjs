@@ -1,5 +1,6 @@
 const cheerio = require("cheerio");
 const { get } = require("../server");
+const { default: e } = require("express");
 
 // write empty functions for each of the data points we want to scrape
 const getActivities = ($) => {
@@ -111,39 +112,43 @@ const getRatingAverage = ($) => {
 
 // wrap all functions in try catch block
 
-const _getActivities = ($) => {
+const _getActivities = ($,e) => {
   try {
     return getActivities($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.activities = err.message;
+    return [];
   }
 };
 
-const _getDescription = ($) => {
+const _getDescription = ($,e) => {
   try {
     return getDescription($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.description = err.message;
+    return '';
   }
 };
 
-const _getAddress = ($) => {
+const _getAddress = ($,e) => {
   try {
     return getAddress($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.address = err.message;
+    return '';
   }
 };
 
-const _getZip = ($) => {
+const _getZip = ($,e) => {
   try {
     return getZip($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.zip = err.message;
+    return '';
   }
 };
 
@@ -152,16 +157,18 @@ const _getFeaturedReview = ($) => {
     return getFeaturedReview($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.featured_review = err.message; 
+    return [];
   }
 };
 
-const _getAttributes = ($) => {
+const _getAttributes = ($,e) => {
   try {
     return getAttributes($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.attributes = err.message;
+    return []
   }
 };
 
@@ -170,7 +177,8 @@ const _getVenueName = ($) => {
     return getVenueName($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.venue_name = err.message;
+    return '';
   }
 };
 
@@ -179,24 +187,26 @@ const _getRatingAverage = ($) => {
     return getRatingAverage($);
   } catch (err) {
     console.log(err);
-    return { error: err.message };
+    e.rating_average = err.message;
+    return '';
   }
 };
 
 module.exports = async (html) => {
   // Use Cheerio to parse the HTML content
   const $ = cheerio.load(html);
+  const e = {};
 
   const parsedData = {
-    activities: _getActivities($),
-    description: _getDescription($),
-    address: _getAddress($),
-    zip: _getZip($),
-    featured_review: _getFeaturedReview($),
-    attributes: _getAttributes($),
-    venue_name: _getVenueName($),
-    rating_average: _getRatingAverage($),
+    activities: _getActivities($,e),
+    description: _getDescription($,e),
+    address: _getAddress($,e),
+    zip: _getZip($,e),
+    featured_review: _getFeaturedReview($,e),
+    attributes: _getAttributes($,e),
+    venue_name: _getVenueName($,e),
+    rating_average: _getRatingAverage($,e),
   };
 
-  return parsedData;
+  return {parsed_data:parsedData,error:e};
 };

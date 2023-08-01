@@ -20,13 +20,32 @@ app.post("/api/parse", async (req, res) => {
     const data = req.body;
     const yelp_url = data.yelp_url;
     const html_body = await getHtmlBody(yelp_url);
-    const parsed_data = await getParsedData(html_body);
+    const {parsed_data,error} = await getParsedData(html_body);
+
+    // clean the data
+    const clean_data = {};
+    for (let k in parsed_data) {
+      if (parsed_data[k]) {
+        clean_data[k] = parsed_data[k];
+      }
+      else {
+        let field_name = '';
+        const words = k.split('_');
+        for ( let word of words) {
+          field_name += word.charAt(0).toUpperCase() + word.slice(1) + ' ';
+        }
+        clean_data[k] = `No ${field_name.trim()} found`;
+      }
+    }
+
+
     const sampleInput = `name = ${parsed_data.venue_name} description = ${parsed_data.description} address = ${parsed_data.address}\
      zipcode = ${parsed_data.zip} reviews = ${parsed_data.featured_review.map(e=>e.text).join(" ")} rating = ${parsed_data.rating_average} attributes = ${parsed_data.attributes}`;
     console.log(sampleInput);
     res.status(201).json({
       match: true,
-      parsed_data,
+      parsed_data : clean_data,
+      error,
     });
   } catch (err) {
     console.log(err);
