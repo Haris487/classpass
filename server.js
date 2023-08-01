@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const getHtmlBody = require("./services/get_html_body_service.cjs");
 const getParsedData = require("./services/get_parsed_data_service.cjs");
+const Counter = require("./services/counter.cjs");
+const fs = require("fs");
 
 const app = express();
 const PORT = 3000;
@@ -16,10 +18,13 @@ app.get("/health", (req, res) => {
 });
 
 app.post("/api/parse", async (req, res) => {
+  let response_url = '';
   try {
     const data = req.body;
     const yelp_url = data.yelp_url;
     const html_body = await getHtmlBody(yelp_url);
+    response_url = (new Counter().getCount())+'.html';
+    fs.writeFileSync('saved_response/'+response_url, html_body);
     const {parsed_data,error} = await getParsedData(html_body);
 
     // clean the data
@@ -54,6 +59,7 @@ app.post("/api/parse", async (req, res) => {
       match: true,
       parsed_data : clean_data,
       error,
+      response_url: '/saved_response/'+response_url,
     });
   } catch (err) {
     console.log(err);
@@ -61,9 +67,17 @@ app.post("/api/parse", async (req, res) => {
       match: false,
       parsed_data: null,
       error: err.message,
+      response_url: '/saved_response/'+response_url,
     });
   }
 });
+
+app.get("/saved_response/:response_url", async (req, res) => {
+  const responseUrl = req.params.response_url;
+  const html_file_data = fs.readFileSync('saved_response/'+responseUrl, 'utf8');
+  res.status(200).send(html_file_data);
+});
+
 
 // Start the server
 app.listen(PORT, () => {
