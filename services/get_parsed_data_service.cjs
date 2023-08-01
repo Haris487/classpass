@@ -152,7 +152,7 @@ const _getZip = ($,e) => {
   }
 };
 
-const _getFeaturedReview = ($) => {
+const _getFeaturedReview = ($,e) => {
   try {
     return getFeaturedReview($);
   } catch (err) {
@@ -182,7 +182,7 @@ const _getVenueName = ($) => {
   }
 };
 
-const _getRatingAverage = ($) => {
+const _getRatingAverage = ($,e) => {
   try {
     return getRatingAverage($);
   } catch (err) {
