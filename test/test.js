@@ -30,7 +30,7 @@ describe("health", () => {
       "utf8"
     );
     getParsedData(html)
-      .then((parsed_data) => {
+      .then(({parsed_data,error}) => {
         expect(parsed_data.activities).to.be.eql([]);
         expect(parsed_data.description).to.equal(
           "Crunch gym in San Mateo, CA fuses fitness & fun through awesome group fitness classes, miles of cardio, top-notch equipment, and personal training, all in month-to-month memberships! Come check us out today and see how we keep it So Fresh & So Clean!"

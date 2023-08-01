@@ -38,6 +38,14 @@ app.post("/api/parse", async (req, res) => {
       }
     }
 
+    // set undefined
+    // clean the data
+    for (let k in error) {
+      if (clean_data[k]) {
+        clean_data[k] = '';
+      }
+    }
+
 
     const sampleInput = `name = ${parsed_data.venue_name} description = ${parsed_data.description} address = ${parsed_data.address}\
      zipcode = ${parsed_data.zip} reviews = ${parsed_data.featured_review.map(e=>e.text).join(" ")} rating = ${parsed_data.rating_average} attributes = ${parsed_data.attributes}`;
