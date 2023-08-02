@@ -71,6 +71,9 @@ const getFeaturedReview = ($) => {
 
 const getAttributes = ($) => {
   const elementsWithReviewsHref = $('a[href="#reviews"]');
+  if(elementsWithReviewsHref.length == 0) {
+    return $($('.css-19v1rkv')[0]).text().split(',').map(e=>e.trim());
+  }
   const getParent = elementsWithReviewsHref[0].parent.parent.parent.parent;
   const children = getParent.children;
   let attributes_elem = null;
